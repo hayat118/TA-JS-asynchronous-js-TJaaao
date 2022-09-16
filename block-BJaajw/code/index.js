@@ -55,9 +55,9 @@ fetch(url)
     let allSources=Array.from(new Set(news.map((news)=>news.newsSite)));
     displayOptions(allSources);
    })
-      .catch((error)=>{
-     ul.innerText=error;
-   })
+  //     .catch((error)=>{
+  //    ul.innerText=error;
+  //  })
  
 
 
