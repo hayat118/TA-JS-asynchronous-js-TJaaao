@@ -19,6 +19,9 @@ const two = new Promise((resolve, reject) =>
 const three = new Promise((resolve, reject) =>
   setTimeout(() => resolve('John'), 3000)
 );
+
+....Whoops
+
 ```
 
 - What will be the output of the following code snippet? How much time will it take for the promise to resolve?
@@ -31,4 +34,6 @@ Promise.all([
   'Sam',
   { name: 'John' },
 ]).then(console.log);
+
+Arya,Sam,Jhon;
 ```
