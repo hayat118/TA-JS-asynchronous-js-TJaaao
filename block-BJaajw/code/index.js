@@ -1,10 +1,28 @@
 
 let newsElm=document.querySelector(".news");
 let select=document.querySelector("select");
+let errorElm=document.querySelector(".error");
+let main=document.querySelector(".main");
+
 let allNews=[];
 
 
 const url=`https://api.spaceflightnewsapi.net/v3/articles?_limit=30`;
+
+
+function handleError(message=`something went wrong`){
+  main.style.display=`none`;
+  errorElm.innerText=message;
+}
+
+
+function handleSpinner(status=false){
+// let isLoading=false;
+
+  if(status){
+    newsElm.innerHTML=`<div class="donut"></div>`;
+  }
+}
 
 
 
@@ -45,16 +63,32 @@ function displayOptions(sources){
   })
 }
 
-
+function init(){
+  isLoading=true;
+  handleSpinner();
 fetch(url)
-   .then((response)=>response.json())
+   .then((response)=>{
+     if(response.ok){
+       return response.json();
+     }else{
+       throw new error("Response is not ok")
+     }
+    })
    .then((news)=>{
     //  console.log(news)
+     isLoading=false;
+     handleSpinner();
     allNews=news;
     displayNews(news);
     let allSources=Array.from(new Set(news.map((news)=>news.newsSite)));
     displayOptions(allSources);
+   }).catch((error)=>{
+     handleError(error);
+   }).finally(()=>{
+     handleSpinner();
    })
+}
+
   //     .catch((error)=>{
   //    ul.innerText=error;
   //  })
@@ -72,3 +106,11 @@ select.addEventListener('change',(event)=>{
   }
   displayNews(filteredNews);
 })
+
+if(navigator.onLine){
+  init();
+
+}else{
+handleError("check your internet connection");
+
+}
